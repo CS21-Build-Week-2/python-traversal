@@ -22,7 +22,7 @@ token = 'Token 5859b714ecceab7b49085ecf1222f2adc318b86e'
 # keep track of the cooldown as well, use time.sleep() for that
 
 r = requests.get(url=endpoints['init'], headers={
-                 "Authorization": "Token "})
+                 "Authorization": token})
 
 data = r.json()
 
@@ -31,7 +31,7 @@ room = f"Room_ID: {data['room_id']}, Coordinates: {data['coordinates']}, Title: 
 # with open('rooms.txt', 'a+') as f:
 #     f.write(f"{room}\n")
 
-cooldown = 15
+# cooldown = 30
 visited_rooms = {}
 moves = Stack()
 room_x = int(f"{data['coordinates'][1]}{data['coordinates'][2]}")
@@ -43,7 +43,7 @@ visited_rooms[f"({room_x},{room_y})"] = room
 # Amount of rooms is confirmed to be 500
 while len(visited_rooms) < 500:
     # time.sleep(cooldown)
-    # print(visited_rooms)
+    print(visited_rooms)
     room_x = int(f"{data['coordinates'][1]}{data['coordinates'][2]}")
     room_y = int(f"{data['coordinates'][4]}{data['coordinates'][5]}")
     exit_directions = data['exits']
@@ -77,6 +77,8 @@ while len(visited_rooms) < 500:
                 directions.append('e')
 
     visited_rooms[data['coordinates']] = room
+    with open('rooms.txt', 'a+') as f:
+        f.write(f"{room}\n")
 
     if len(directions) is 0:
         time.sleep(30)
@@ -89,6 +91,7 @@ while len(visited_rooms) < 500:
 
     random.shuffle(directions)
     d = directions.pop()
+    time.sleep(30)
     r = requests.post(url=endpoints['move'], headers={
                       "Authorization": token}, json={'direction': d})
     data = r.json()
@@ -98,14 +101,16 @@ while len(visited_rooms) < 500:
         for error in data['errors']:
             print(error)
 
-        time.sleep(cooldown)
+        time.sleep(30)
         r = requests.post(url=endpoints['move'], headers={
                           "Authorization": token}, json={'direction': d})
         data = r.json()
         room = f"Room_ID: {data['room_id']}, Coordinates: {data['coordinates']}, Title: {data['title']}, Description: {data['description']}, Messages: {data['messages']}, Items: {data['items']}"
         moves.push(flip_dir(d))
     else:
-        time.sleep(cooldown)
+        time.sleep(30)
+        room = f"Room_ID: {data['room_id']}, Coordinates: {data['coordinates']}, Title: {data['title']}, Description: {data['description']}, Messages: {data['messages']}, Items: {data['items']}"
+        moves.push(flip_dir(d))
 
     # data = r.json()
     # room = f"Room_ID: {data['room_id']}, Coordinates: {data['coordinates']}, Title: {data['title']}, Description: {data['description']}, Messages: {data['messages']}, Items: {data['items']}"
