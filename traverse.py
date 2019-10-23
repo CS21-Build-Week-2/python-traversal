@@ -23,4 +23,10 @@ r = requests.get(url=endpoints['init'], headers={
 
 data = r.json()
 
-# print(data)
+room = f"Room_ID: {data['room_id']}, Coordinates: {data['coordinates']}, Title: {data['title']}, Description: {data['description']},"
+
+f = open('rooms.txt', 'a+')
+f.write(f"\n{room}")
+f.close()
+
+cooldown = data['cooldown']
