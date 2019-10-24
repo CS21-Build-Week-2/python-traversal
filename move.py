@@ -7,7 +7,7 @@ import time
 import requests
 
 URL = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/'
-HEADERS = {'Authorization': 'Token ----------', 'Content-Type': 'application/json'}
+HEADERS = {'Authorization': 'Token 5859b714ecceab7b49085ecf1222f2adc318b86e', 'Content-Type': 'application/json'}
 MAP = {}
 CURRENT_ROOM = 0
 ROOM_INFO = {}  # a dictionary of room info
