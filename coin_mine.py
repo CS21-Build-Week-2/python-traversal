@@ -47,8 +47,10 @@ zeros = "0" * difficulty_zeros
 
 while guess_hash[:difficulty_zeros] != zeros:
     proof = random.randint(1, 99000000000000)
+    print(f"New proof: {proof}")
     new_guess = f"{last_proof}{proof}".encode()
     guess_hash = hashlib.sha256(new_guess).hexdigest()
+    print(f"\n New guess hash: {guess_hash}")
 
 r = requests.post(url=endpoints['mine'], json={"proof": proof}, headers={"Authorization": token})
 data = r.json()
